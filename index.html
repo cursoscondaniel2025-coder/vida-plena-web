@@ -506,8 +506,19 @@ class Component extends DCLogic {
             revealObserver.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      }, { threshold: 0, rootMargin: '0px 0px 15% 0px' });
       sections.forEach(s => revealObserver.observe(s));
+      setTimeout(() => {
+        sections.forEach(s => {
+          if (s.style.opacity !== '1') {
+            const box = s.getBoundingClientRect();
+            if (box.top < window.innerHeight * 1.5) {
+              s.style.opacity = '1';
+              s.style.transform = 'none';
+            }
+          }
+        });
+      }, 1200);
     }
 
     const allSections = document.querySelectorAll('main section[id]');
