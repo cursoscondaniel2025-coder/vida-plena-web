@@ -35,7 +35,8 @@
   <script src="./image-slot.js"></script>
   <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E18734"></rect><text x="50" y="58" font-size="34" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="700">VP</text></svg></template>
   <style>
-    body{margin:0;background:#FFFDF8;overflow-x:hidden;}
+    html{overflow-x:hidden;max-width:100%;}
+    body{margin:0;background:#FFFDF8;overflow-x:hidden;max-width:100%;}
     a{color:#C56A1E;}
     a:hover{color:#9C520A;}
     ::selection{background:#FDB515;color:#25241F;}
@@ -44,6 +45,10 @@
     @media (max-width:760px){
       .vp-nav-links{display:none !important;}
       .vp-mobile-toggle{display:flex !important;}
+      .vp-hero-grid{grid-template-columns:1fr !important;}
+      .vp-mobile-actionbar{display:flex !important;}
+      #vp-wa-float{display:none !important;}
+      body{padding-bottom:76px;}
     }
     .vp-mobile-toggle{display:none;}
     .vp-mobile-menu.vp-open{display:flex !important;}
@@ -54,7 +59,7 @@
 <div style="--color-primary:#E18734;--color-primary-dark:#B5691F;--color-primary-tint:#FBE3C6;--color-accent-a:#78C36A;--color-accent-b:#18BAAB;--color-accent-gold:#FDB515;--text-on-brand:#ffffff;font-family:'Nunito',sans-serif;color:#25241F;">
 
   <!-- NAV -->
-  <header style="position:sticky;top:0;z-index:50;background:rgba(255,253,248,0.92);backdrop-filter:blur(6px);border-bottom:1px solid #EFE7D6;">
+  <header style="position:fixed;top:0;left:0;right:0;width:100%;z-index:50;background:rgba(255,253,248,0.96);backdrop-filter:blur(6px);border-bottom:1px solid #EFE7D6;">
     <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 1px 0 rgba(37,36,31,0.04);">
       <img src="assets/logo-vidaplena-color.png" alt="Vida Plena" style="height:48px;width:auto;object-fit:contain;">
       <nav aria-label="Navegación principal" class="vp-nav-links" style="display:flex;gap:20px;overflow-x:auto;flex:1;min-width:0;justify-content:center;scrollbar-width:none;">
@@ -83,12 +88,13 @@
       <a href="#contacto" style="padding:10px 4px;font:600 15px/1 'Nunito',sans-serif;color:#5C594F;text-decoration:none;">Contacto</a>
     </nav>
   </header>
+  <div style="height:77px;" aria-hidden="true"></div>
 
 <main>
   <!-- HERO -->
   <section data-screen-label="Portada" id="inicio" style="position:relative;overflow:hidden;">
     <img src="assets/hero-bg-tienda.png" alt="Tienda Vida Plena" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;object-fit:cover;object-position:65% 55%;">
-    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(255,253,248,1) 0%,rgba(255,253,248,1) 40%,rgba(255,253,248,0.7) 55%,rgba(255,253,248,0.2) 72%,rgba(255,253,248,0) 85%);"></div>
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(255,253,248,1) 0%,rgba(255,253,248,1) 48%,rgba(255,253,248,0.85) 60%,rgba(255,253,248,0.4) 75%,rgba(255,253,248,0.1) 90%);"></div>
     <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(255,253,248,0) 0%,rgba(255,253,248,0) 46%,rgba(255,253,248,0.6) 62%,rgba(255,253,248,0.95) 78%,rgba(255,253,248,1) 100%);"></div>
     <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:200px 24px 70px;">
       <div style="max-width:400px;text-align:left;margin:0;">
@@ -107,7 +113,7 @@
 
   <!-- QUIENES SOMOS -->
   <section data-screen-label="Quiénes somos" id="quienes-somos" style="padding:96px 24px;background:#fff;">
-    <div style="max-width:1120px;margin:0 auto 72px;display:grid;grid-template-columns:minmax(280px,0.95fr) minmax(300px,1.05fr);gap:56px;align-items:center;">
+    <div class="vp-hero-grid" style="max-width:1120px;margin:0 auto 72px;display:grid;grid-template-columns:minmax(280px,0.95fr) minmax(300px,1.05fr);gap:56px;align-items:center;">
       <div>
         <span style="display:block;font:600 13px/1.3 'Poppins',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#E18734;margin-bottom:8px;">Nuestra historia</span>
         <h2 style="font:800 36px/1.15 'Poppins',sans-serif;margin:0 0 18px;color:#25241F;">Quiénes somos</h2>
@@ -417,9 +423,22 @@
   </section>
 </main>
 
-  <a href="https://wa.me/573000000000?text=Hola%20Vida%20Plena%2C%20quiero%20agendar%20mi%20valoraci%C3%B3n" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp" title="Escríbenos por WhatsApp" style-hover="transform:scale(1.08);" style="position:fixed;bottom:24px;right:24px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(0,0,0,0.4);text-decoration:none;transition:transform 0.2s;">
+  <a href="https://wa.me/573000000000?text=Hola%20Vida%20Plena%2C%20quiero%20agendar%20mi%20valoraci%C3%B3n" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp" title="Escríbenos por WhatsApp" id="vp-wa-float" style-hover="transform:scale(1.08);" style="position:fixed;bottom:24px;right:24px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(0,0,0,0.4);text-decoration:none;transition:transform 0.2s,opacity 0.3s;opacity:0;pointer-events:none;">
     <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18c-1.6 0-3.1-.42-4.4-1.16l-.32-.18-3.02.79.81-2.94-.2-.31A7.95 7.95 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Zm4.4-5.99c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4-.14 0-.3-.02-.46-.02-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path></svg>
   </a>
+
+  <!-- BARRA FIJA MÓVIL -->
+  <div class="vp-mobile-actionbar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:65;background:#fff;border-top:1px solid #EFE7D6;padding:10px 12px;gap:8px;box-shadow:0 -4px 16px rgba(37,36,31,0.1);">
+    <a href="#contacto" style="flex:1.3;display:flex;align-items:center;justify-content:center;padding:12px 10px;border-radius:999px;background:#E18734;color:#fff;font:700 13px/1 'Poppins',sans-serif;text-decoration:none;white-space:nowrap;">Agenda tu valoración</a>
+    <a href="https://wa.me/573000000000?text=Hola%20Vida%20Plena%2C%20quiero%20agendar%20mi%20valoraci%C3%B3n" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 10px;border-radius:999px;border:1.5px solid #EFE7D6;color:#25241F;font:700 13px/1 'Poppins',sans-serif;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18c-1.6 0-3.1-.42-4.4-1.16l-.32-.18-3.02.79.81-2.94-.2-.31A7.95 7.95 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Zm4.4-5.99c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4-.14 0-.3-.02-.46-.02-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path></svg>
+      Chat
+    </a>
+    <a href="tel:+573000000000" aria-label="Llamar" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 10px;border-radius:999px;border:1.5px solid #EFE7D6;color:#25241F;font:700 13px/1 'Poppins',sans-serif;text-decoration:none;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#25241F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      Llamar
+    </a>
+  </div>
 
   <!-- FOOTER -->
   <footer style="background:#25241F;padding:56px 24px 32px;">
@@ -519,6 +538,19 @@ class Component extends DCLogic {
           toggleBtn.setAttribute('aria-expanded', 'false');
         });
       });
+    }
+
+    const waFloat = document.getElementById('vp-wa-float');
+    const heroSection = document.getElementById('inicio');
+    if (waFloat && heroSection) {
+      const waObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const show = !entry.isIntersecting;
+          waFloat.style.opacity = show ? '1' : '0';
+          waFloat.style.pointerEvents = show ? 'auto' : 'none';
+        });
+      }, { threshold: 0 });
+      waObserver.observe(heroSection);
     }
 
     const banner = document.getElementById('vp-cookie-banner');
