@@ -361,34 +361,36 @@
 <script>
 (function(){
   var VP_ENDPOINT = "https://script.google.com/macros/s/AKfycbyB89nUDhZt3i5RA0nbWyQbiABpBAkYWs19DGjxlevtOJuTxZ0pai3ZPc3GmlJZm4TD/exec";
-  var form = document.getElementById('vp-contact-form');
-  if (form) {
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var status = document.getElementById('vp-form-status');
-      var btn = document.getElementById('vp-form-submit');
-      var nombre = document.getElementById('vp-nombre').value.trim();
-      var telefono = document.getElementById('vp-telefono').value.trim();
-      var mensaje = document.getElementById('vp-mensaje').value.trim();
-      if (!nombre || !telefono) {
-        status.textContent = 'Por favor completa tu nombre y teléfono.';
-        return;
-      }
-      btn.disabled = true;
-      status.textContent = 'Enviando...';
-      fetch(VP_ENDPOINT, {
-        method: 'POST',
-        body: JSON.stringify({ nombre: nombre, telefono: telefono, mensaje: mensaje })
-      }).then(function(){
-        status.textContent = '¡Gracias! Te contactaremos muy pronto.';
-        form.reset();
-      }).catch(function(){
-        status.textContent = 'No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.';
-      }).finally(function(){
-        btn.disabled = false;
-      });
+  document.addEventListener('submit', function(e){
+    var form = e.target;
+    if (!form || form.id !== 'vp-contact-form') return;
+    e.preventDefault();
+    var status = form.querySelector('#vp-form-status');
+    var btn = form.querySelector('#vp-form-submit');
+    var nombreEl = form.querySelector('#vp-nombre');
+    var telefonoEl = form.querySelector('#vp-telefono');
+    var mensajeEl = form.querySelector('#vp-mensaje');
+    var nombre = nombreEl ? nombreEl.value.trim() : '';
+    var telefono = telefonoEl ? telefonoEl.value.trim() : '';
+    var mensaje = mensajeEl ? mensajeEl.value.trim() : '';
+    if (!nombre || !telefono) {
+      if (status) status.textContent = 'Por favor completa tu nombre y teléfono.';
+      return;
+    }
+    if (btn) { btn.disabled = true; }
+    if (status) status.textContent = 'Enviando...';
+    fetch(VP_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({ nombre: nombre, telefono: telefono, mensaje: mensaje })
+    }).then(function(){
+      if (status) status.textContent = '¡Gracias! Te contactaremos muy pronto.';
+      form.reset();
+    }).catch(function(){
+      if (status) status.textContent = 'No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.';
+    }).finally(function(){
+      if (btn) { btn.disabled = false; }
     });
-  }
+  }, true);
 })();
 </script>
       </div>
