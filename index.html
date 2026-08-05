@@ -350,14 +350,47 @@
                   <p style="font:500 12px/1.5 'Nunito',sans-serif;color:#9C978A;margin:0;font-style:italic;">Número de WhatsApp de muestra — se reemplaza por el canal definitivo que confirme el cliente.</p>
           </div>
         </div>
-        <form style="background:#FAF9F5;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:16px;">
-          <p style="font:700 15px/1.4 'Poppins',sans-serif;color:#25241F;margin:0 0 4px;">O escríbenos por formulario</p>
-          <label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Tu nombre<input type="text" aria-label="Tu nombre" placeholder="Tu nombre" style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;"></label>
-          <label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Tu teléfono<input type="tel" aria-label="Tu teléfono" placeholder="Tu teléfono" style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;"></label>
-          <label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Mensaje<textarea aria-label="Cuéntanos brevemente qué te gustaría trabajar" placeholder="Cuéntanos brevemente qué te gustaría trabajar" rows="4" style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;resize:vertical;"></textarea></label>
-          <button type="button" style="padding:14px 24px;border-radius:999px;background:#E18734;color:#fff;border:none;font:700 15px/1 'Poppins',sans-serif;cursor:pointer;">Enviar solicitud</button>
-          <p style="font:500 12px/1.5 'Nunito',sans-serif;color:#9C978A;margin:0;font-style:italic;">Formulario ilustrativo — se conecta al canal de agenda que defina el cliente (WhatsApp, formulario o calendario online).</p>
-        </form>
+<form id="vp-contact-form" style="background:#FAF9F5;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:16px;">
+<p style="font:700 15px/1.4 'Poppins',sans-serif;color:#25241F;margin:0 0 4px;">O escríbenos por formulario</p>
+<label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Tu nombre<input id="vp-nombre" type="text" aria-label="Tu nombre" placeholder="Tu nombre" required style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;"></label>
+<label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Tu teléfono<input id="vp-telefono" type="tel" aria-label="Tu teléfono" placeholder="Tu teléfono" required style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;"></label>
+<label style="font:600 13px/1.4 'Nunito',sans-serif;color:#5C594F;">Mensaje<textarea id="vp-mensaje" aria-label="Cuéntanos brevemente qué te gustaría trabajar" placeholder="Cuéntanos brevemente qué te gustaría trabajar" rows="4" style="display:block;margin-top:6px;width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid #E6E3DA;font:500 15px/1.4 'Nunito',sans-serif;background:#fff;resize:vertical;"></textarea></label>
+<button id="vp-form-submit" type="submit" style="padding:14px 24px;border-radius:999px;background:#E18734;color:#fff;border:none;font:700 15px/1 'Poppins',sans-serif;cursor:pointer;">Enviar solicitud</button>
+<p id="vp-form-status" style="font:500 12px/1.5 'Nunito',sans-serif;color:#9C978A;margin:0;font-style:italic;">Tus datos se envían directamente a nuestro equipo.</p>
+</form>
+<script>
+(function(){
+  var VP_ENDPOINT = "https://script.google.com/macros/s/AKfycbyB89nUDhZt3i5RA0nbWyQbiABpBAkYWs19DGjxlevtOJuTxZ0pai3ZPc3GmlJZm4TD/exec";
+  var form = document.getElementById('vp-contact-form');
+  if (form) {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var status = document.getElementById('vp-form-status');
+      var btn = document.getElementById('vp-form-submit');
+      var nombre = document.getElementById('vp-nombre').value.trim();
+      var telefono = document.getElementById('vp-telefono').value.trim();
+      var mensaje = document.getElementById('vp-mensaje').value.trim();
+      if (!nombre || !telefono) {
+        status.textContent = 'Por favor completa tu nombre y teléfono.';
+        return;
+      }
+      btn.disabled = true;
+      status.textContent = 'Enviando...';
+      fetch(VP_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify({ nombre: nombre, telefono: telefono, mensaje: mensaje })
+      }).then(function(){
+        status.textContent = '¡Gracias! Te contactaremos muy pronto.';
+        form.reset();
+      }).catch(function(){
+        status.textContent = 'No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.';
+      }).finally(function(){
+        btn.disabled = false;
+      });
+    });
+  }
+})();
+</script>
       </div>
     </div>
   </section>
